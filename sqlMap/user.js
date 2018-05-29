@@ -12,6 +12,7 @@ const User = () => {};
 module.exports = User;
 
 User.login = (req,res) => {
+  console.log(111111111)
   let params = JSON.parse(Object.keys(req.body)[0]);
   console.log(params)
   if (params.loginName == '' || params.loginName == null) {
@@ -43,8 +44,9 @@ User.login = (req,res) => {
     }else{
       response.code = 0;
       response.message = '登陆成功！';
-      let token = result[0].userId;
-      response.result = token;
+      let time = new Date().getTime();
+      let data = {token:time+7200, userId:result[0].userId}
+      response.result = data;
       res.json(response);
       return;
     }
