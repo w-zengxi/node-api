@@ -2,32 +2,26 @@ const express = require('express');
 const router = express.Router();
 
 // 方法
-const User = require('../sqlMap/user');
-const Goods = require('../sqlMap/goods');
-const Address = require('../sqlMap/address');
-const Category = require('../sqlMap/category');
+const Address = require('../client/address');
+const {getSwiper, getGuess, getCategory, getInfo} = require('../client/client')
+const {userLogin} = require('../client/user');
+const {addCart,getCart,removeCart} = require('../client/cart')
+
 // User
-router.post('/login', User.login);
-router.post('/register', User.register);
-router.post('/getUserInfo', User.getUserInfo)
+router.post('/user/login', userLogin);
 
-// Goods
-// router.post('/getGoodsInfo', Goods.getInfo)
-router.get('/goods/get', Goods.get)
-router.post('/goods/type', Goods.goodsTypeTitle)
-router.get('/admin/goods/get', Goods.get)
-router.post('/admin/goods/add', Goods.add)
-router.get('/admin/goods/delete', Goods.remove)
+// Client
+router.get('/get/swiper', getSwiper)
+router.get('/get/guess', getGuess)
+router.get('/get/category', getCategory)
+router.get('/get/info', getInfo)
 
-// Category
-router.get('/admin/category/get', Category.get)
-router.post('/admin/category/add', Category.add)
-router.post('/admin/category/update', Category.update)
-router.get('/admin/category/remove', Category.remove)
-
+router.post('/add/to/cart', addCart)
+router.get('/cart/get', getCart)
+router.get('/cart/remove', removeCart)
 // Address
-router.get('/address/getList', Address.getList)
+router.get('/address/get', Address.get)
 router.post('/address/add', Address.add)
 router.post('/address/update', Address.update)
-router.get('/address/delete', Address.delete)
+router.get('/address/remove', Address.delete)
 module.exports = router;

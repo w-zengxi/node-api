@@ -5,7 +5,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
-// var usersRouter = require('./routes/users');
+var adminRouter = require('./routes/admin');
+var wxRouter = require('./routes/wx')
 
 var app = express();
 
@@ -19,9 +20,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use('/public', express.static('public'));
+
 // 设置服务端跨域 这个代码要写在注册路由的前面
 app.all('*', function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', 'http://localhost:8080');
+    res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'X-Requested-With,Authorization');
     res.header('Access-Control-Allow-Methods', 'PUT,POST,GET,DELETE,OPTIONS');
     res.header('X-Powered-By', '3.2.1')
@@ -30,7 +33,8 @@ app.all('*', function(req, res, next) {
 });
 
 app.use('/', indexRouter);
-// app.use('/users', usersRouter);
+app.use('/admin', adminRouter);
+app.use('/wx', wxRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
